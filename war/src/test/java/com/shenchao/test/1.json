@@ -1,0 +1,13 @@
+{
+  "@timestamp": "2017-12-13T22:21:52.596+08:00",
+  "@version": 1,
+  "message": "hello world",
+  "logger_name": "com.shenchao.test.LogBackDemo",
+  "thread_name": "main",
+  "level": "TRACE",
+  "level_value": 5000,
+  "caller_class_name": "com.shenchao.test.LogBackDemo",
+  "caller_method_name": "main",
+  "caller_file_name": "LogBackDemo.java",
+  "caller_line_number": 24
+}

@@ -1,0 +1,27 @@
+{
+  "@timestamp": "2017-12-07T16:34:15.937+08:00",
+  "@version": 1,
+  "message": "invoking service method start",
+  "logger_name": "com.wosai.upay.common.helper.CommonServiceMethodInterceptor",
+  "thread_name": "1124971649@qtp-915853613-0",
+  "level": "TRACE",
+  "level_value": 5000,
+  "HOSTNAME": "ShenChaodeMacBook-Pro.local",
+  "declaringClass": "com.wosai.bsm.financelakala.service.LakalaService",
+  "method": "launchRedeem",
+  "returnType": "java.util.Map",
+  "arguments": [
+    {
+      "userId": "UID20171116183355008",
+      "redeemBizCode": "2",
+      "amount": "5000",
+      "bankCode": "01030000",
+      "bankCardNo": "6228480402533332812"
+    }
+  ],
+  "header": {},
+  "caller_class_name": "com.wosai.upay.common.helper.CommonServiceMethodInterceptor",
+  "caller_method_name": "invoke",
+  "caller_file_name": "CommonServiceMethodInterceptor.java",
+  "caller_line_number": 54
+}
