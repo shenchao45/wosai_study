@@ -4,6 +4,16 @@
        xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:jpa="http://www.springframework.org/schema/data/jpa"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+    <!-- service方法拦截(日志打印、通用异常) -->
+    <bean id="serviceMethodInterceptor" class="com.shenchao.helper.CommonServiceMethodInterceptor">
+        <property name="logNotFindMethodsResult" value="true"></property>
+        <property name="commonExceptionDeepCause" value="true"></property>
+    </bean>
+    <bean class="com.shenchao.helper.CommonServicePostProcessor">
+        <property name="advice" ref="serviceMethodInterceptor"/>
+        <property name="annotationTypeClass" value="com.shenchao.common.log.ServiceAnnotation"/>
+    </bean>
     <context:property-placeholder location="classpath:spring/flavor.properties"/>
     <bean class="com.mchange.v2.c3p0.ComboPooledDataSource" id="dataSource" destroy-method="close">
         <property name="password" value="${jdbc.password}"/>
@@ -11,7 +21,7 @@
         <property name="user" value="${jdbc.username}"/>
         <property name="jdbcUrl" value="${jdbc.url}"/>
     </bean>
-
+    <bean class="com.shenchao.util.SpringContextHolder"/>
     <context:component-scan base-package="com.shenchao">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
@@ -20,7 +30,10 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="packagesToScan" value="com.shenchao.entity"/>
         <property name="jpaVendorAdapter">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="database" value="MYSQL" />
+                <property name="generateDdl" value="true"/>
+            </bean>
         </property>
         <property name="jpaProperties">
             <props>
@@ -38,4 +51,20 @@
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <jpa:repositories base-package="com.shenchao.repository"/>
+    <!-- jsonrpc 配置 start -->
+    <bean id="myObjectMapper" class="com.shenchao.helper.MyObjectMapper"/>
+
+    <bean id="rpcErrorResolver" class="com.googlecode.jsonrpc4j.MultipleErrorResolver">
+        <constructor-arg>
+            <list>
+                <bean class="com.shenchao.helper.ExceptionBaseErrorResolver"/>
+                <bean class="com.googlecode.jsonrpc4j.DefaultErrorResolver"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="jsonRpcRequestListener" class="com.shenchao.common.log.JsonRpcRequestListener">
+        <property name="projectName" value="finance-backend"></property>
+    </bean>
+    <!-- jsonrpc 配置 end -->
 </beans>

@@ -107,5 +107,18 @@ public class JsonRpcCallUtil {
         MapUtil.putIfNotNull(header, CALL_HEADER_KEY_CALL_PATH, request.getHeader(CALL_HEADER_KEY_CALL_PATH));
         return header;
     }
-
+    /**
+     * append请求头Map.
+     * 当callId为空则会自动生成一个.
+     *
+     * @param callerProject 请求头 - 调用系统，由上一层发起调用的系统赋值
+     */
+    public static void appendCallHeaderMap(Map<String, String> header, String callerProject) {
+        String callId = header.get(CALL_HEADER_KEY_CALL_ID);
+        if (StringUtils.isEmpty(callId)) {
+            header.put(CALL_HEADER_KEY_CALL_ID, generateCallId());
+        }
+        MapUtil.putIfNotNull(header, CALL_HEADER_KEY_CALLER_PROJECT, callerProject);
+        MapUtil.putIfNotNull(header, CALL_HEADER_KEY_CALL_PATH, buildCallPath(header.get(CALL_HEADER_KEY_CALL_PATH), callerProject));
+    }
 }

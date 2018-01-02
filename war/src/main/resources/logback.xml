@@ -48,6 +48,7 @@
     </root>
 
     <logger name="com.shenchao.controller" level="trace"/>
+    <logger name="com.shenchao.helper" level="trace"/>
     <logger name="com.shenchao.service" level="trace"/>
     <logger name="com.shenchao.test" level="trace"/>
 

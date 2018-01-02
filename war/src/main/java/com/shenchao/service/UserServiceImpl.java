@@ -1,5 +1,6 @@
 package com.shenchao.service;
 
+import com.shenchao.common.log.ServiceAnnotation;
 import com.shenchao.entity.User;
 import com.shenchao.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import java.util.List;
  * Created by shenchao on 17/12/12.
  */
 @Service
+@ServiceAnnotation
 public class UserServiceImpl implements UserService {
 
     @Autowired

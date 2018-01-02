@@ -23,6 +23,8 @@ public class MethodEndLog extends MethodStartLog {
      */
     private Object result;
 
+
+
     public MethodEndLog(Method method, Object[] arguments, long duration, Boolean success, Throwable throwable) {
         super(method, arguments);
         this.duration = duration;
@@ -60,5 +62,19 @@ public class MethodEndLog extends MethodStartLog {
         this.result = result;
     }
 
+    public void setResult(Object result) {
+        this.result = result;
+    }
 
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
+
+    public void setSuccess(Boolean success) {
+        this.success = success;
+    }
+
+    public void setException(ThrowableLog exception) {
+        this.exception = exception;
+    }
 }

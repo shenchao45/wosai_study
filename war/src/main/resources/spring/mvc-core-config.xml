@@ -2,9 +2,24 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
     <import resource="mvc-view-config.xml"/>
     <context:component-scan base-package="com.shenchao.controller"/>
     <mvc:annotation-driven/>
+    <!-- controller方法拦截配置 start -->
+    <bean id="controllerMethodInterceptor" class="com.shenchao.helper.CommonControllerMethodInterceptor"/>
+    <aop:config>
+        <aop:pointcut id="controllerLogAroundPoint"
+                      expression="execution(public * com.shenchao.controller.*.*(..))"/>
+        <aop:advisor advice-ref="controllerMethodInterceptor" pointcut-ref="controllerLogAroundPoint"/>
+    </aop:config>
+    <!-- controller方法拦截配置 end -->
+
+    <bean name="/user/helloworld" class="com.googlecode.jsonrpc4j.spring.JsonServiceExporter">
+        <property name="service" ref="rpcServiceImpl"/>
+        <property name="serviceInterface" value="com.shenchao.service.RpcService"/>
+        <property name="errorResolver" ref="rpcErrorResolver"></property>
+    </bean>
+
 </beans>

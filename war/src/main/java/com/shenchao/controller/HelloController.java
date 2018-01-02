@@ -43,7 +43,7 @@ public class HelloController {
     }
 
     @GetMapping("/aaaa")
-    public String test(){
+    public Object test(){
         return "hello";
     }
 
